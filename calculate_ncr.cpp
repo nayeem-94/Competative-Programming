@@ -1,4 +1,5 @@
 //codeforces/contest/131/problem/C
+// calculate nCr
 
 #include<bits/stdc++.h>
 

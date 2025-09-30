@@ -1,0 +1,108 @@
+1. Segment the Array to Minimize Cuts
+📝 Problem:
+Given an array of integers and a value k, split it into minimum number of segments such that the difference between max and min in each segment ≤ k
+
+💡 Technique: Two Pointers + Track min/max
+Almost same as your code
+Greedy + Reset the segment on constraint violation
+
+2. Longest Subarray with Sum ≤ K
+📝 Problem:
+Given an array and integer K, find the length of the longest subarray whose sum is ≤ K
+
+💡 Technique: Sliding Window (for only positive elements)
+cpp
+Copy
+Edit
+int l = 0, sum = 0, ans = 0;
+for(int r = 0; r < n; r++) {
+    sum += a[r];
+    while(sum > k) {
+        sum -= a[l++];
+    }
+    ans = max(ans, r - l + 1);
+}
+✅ Works only when elements are non-negative
+
+3. Count Number of Subarrays with At Most K Distinct Elements
+📝 Problem:
+Count number of subarrays with at most K distinct values.
+
+💡 Technique: Sliding Window + Hash Map
+cpp
+Copy
+Edit
+unordered_map<int, int> freq;
+int l = 0, ans = 0;
+
+for (int r = 0; r < n; r++) {
+    freq[a[r]]++;
+    while (freq.size() > K) {
+        freq[a[l]]--;
+        if(freq[a[l]] == 0) freq.erase(a[l]);
+        l++;
+    }
+    ans += (r - l + 1);  // All subarrays ending at r
+}
+4. Longest Substring Without Repeating Characters (Leetcode Classic)
+📝 Problem:
+Find the longest substring with all unique characters
+
+💡 Same Two Pointers + Frequency Map
+cpp
+Copy
+Edit
+unordered_map<char, int> mp;
+int l = 0, ans = 0;
+
+for (int r = 0; r < s.length(); r++) {
+    mp[s[r]]++;
+    while(mp[s[r]] > 1) {
+        mp[s[l]]--;
+        l++;
+    }
+    ans = max(ans, r - l + 1);
+}
+5. Longest Subarray with Absolute Difference ≤ Limit
+📝 Problem (Leetcode 1438):
+Given an array and integer limit, find the longest subarray such that:
+
+∣
+max
+−
+min
+∣
+≤
+limit
+∣max−min∣≤limit
+💡 Use multiset or monotonic deques
+cpp
+Copy
+Edit
+multiset<int> window;
+int l = 0, ans = 0;
+
+for(int r = 0; r < n; r++) {
+    window.insert(nums[r]);
+    while(*window.rbegin() - *window.begin() > limit) {
+        window.erase(window.find(nums[l++]));
+    }
+    ans = max(ans, r - l + 1);
+}
+6. Split Array into Minimum Subarrays with Sum ≤ K
+📝 Problem:
+Given an array and K, split into fewest segments where sum of each ≤ K
+
+cpp
+Copy
+Edit
+int cnt = 1, curr = 0;
+for(int i = 0; i < n; i++) {
+    if(curr + a[i] > K) {
+        cnt++;
+        curr = a[i];
+    } else {
+        curr += a[i];
+    }
+}
+✅ Greedy + Partitioning logic
